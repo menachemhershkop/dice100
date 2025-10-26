@@ -20,14 +20,14 @@ def closer_to_target(a: int, b: int, target: int = 100) -> int | None:
         return 2
     else:
         return None
-def tie_breaker(roller) -> int:
+def tie_breaker() -> str:
     while True:
         player1=sum(roll_two_d6())
         player2=sum(roll_two_d6())
         if player1 > player2:
-            return 1
+            return "player 1 is win"
         elif player1 < player2:
-            return 2
+            return "player 2 is win"
 def turn_decision(input_fn) -> str:
     while True:
         if input_fn =="r":
@@ -39,22 +39,25 @@ def turn_decision(input_fn) -> str:
 def play_game():
     def play_mengment():
         choice=turn_decision(input("Press 'r' to play or 'p' to pass: "))
-        passing=0
         if choice=="roll":
             return sum(roll_two_d6())
-        elif choice == 'p'
-            return 'r'
+        elif choice == 'pass':
+            return 0
     def chek_victory(player):
         if is_exact_100(player):
-            return f'{player} is win!'
+            return True
         if is_bust(player):
-            return f'{player} is los because is over the 100 score... '
+            return False
+        else:
+            return None
 
     player1=0
     player2=0
     while True:
         player1+=play_mengment()
         player2+=play_mengment()
+        # if player1 == 3 and player2 == 3:
+        #      return tie_breaker()
         close_to_win=closer_to_target(player1,player2)
         if close_to_win == 1:
             print("player 1 is closer")
@@ -63,5 +66,18 @@ def play_game():
         else:
             print("tie")
         print(f'p1={player1}, p2={player2}')
-
-play_game()
+        if player1>=100:
+            if chek_victory(player1):
+                return f'player 1 is win'
+            if not chek_victory(player1):
+                return f'player 1 is loss'
+            else:
+                continue
+        elif player2>=100:
+            if chek_victory(player2):
+                return f'player 2 is win'
+            if not chek_victory(player2):
+                return f'player 2 is loss'
+            else:
+                continue
+print(play_game())
